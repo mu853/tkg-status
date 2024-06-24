@@ -8,19 +8,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
-    <div id="app" class="container">
+    <div id="app" class="container mt-5">
+        <div class="badge bg-primary">最終更新：{{ last_update }}</div>
         <table class="table table-striped">
             <tr>
-                <td>クラスタ名</td>
-                <td>タイプ</td>	
-                <td>ステータス</td>
-                <td>VIP Address</td>
-                <td>VIP Status</td>
-                <td>接続可否</td>
-                <td>正常ノード数</td>
-                <td>正常Pod数</td>
-                <td>クライアント証明書有効期限</td>
-                <td>Controller証明書有効期限</td>
+                <th>クラスタ名</th>
+                <th>タイプ</th>	
+                <th>ステータス</th>
+                <th>VIP Address</th>
+                <th>VIP Status</th>
+                <th>接続可否</th>
+                <th>正常ノード数</th>
+                <th>正常Pod数</th>
+                <th>クライアント証明書有効期限</th>
+                <th>Controller証明書有効期限</th>
             </tr>
             <tr v-for="cluster in clusters" :key="cluster.name">
                 <td>{{ cluster.name }}</td>
@@ -28,10 +29,10 @@
 		        <td :class="{ 'bg-warning': cluster.ready != 'Ready' }">{{ cluster.ready }}</td>
                 <td>{{ cluster.ipAddr }}</td>
                 <td :class="{ 'bg-danger': cluster.vsStatus != 'UP' }">{{ cluster.vsStatus }}</td>
-                <td>{{ cluster.accessible }}</td>
+                <td :class="{ 'bg-danger': cluster.accessible != 'Yes' }">{{ cluster.accessible }}</td>
                 <td :class="{ 'bg-warning': cluster.numOfReadyNodes < cluster.numOfNodes }">{{ cluster.numOfReadyNodes }}/{{ cluster.numOfNodes }}</td>
                 <td :class="{ 'bg-warning': cluster.numOfReadyPods < cluster.numOfPods }">{{ cluster.numOfReadyPods }}/{{ cluster.numOfPods }}</td>
-                <td></td>
+                <td :class="{ 'bg-warning': cluster.remaning < 90 }">{{ cluster.expiration }}</td>
                 <td></td>
             </tr>
         </table>
